@@ -20,6 +20,10 @@
     box-sizing: border-box;
   }
 
+  html, body {
+    height: 100%;
+  }
+
   body {
     font-family: 'Poppins', system-ui, sans-serif;
     font-weight: 400;
@@ -30,7 +34,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Gilroy', system-ui, sans-serif;
-    font-weight: 700;
+    font-weight: 800;
   }
 
   button {
@@ -39,66 +43,114 @@
     text-transform: uppercase;
     letter-spacing: 1.2px;
   }
+
+  input, select, textarea {
+    font-family: 'Poppins', system-ui, sans-serif;
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply w-full rounded-full bg-black text-yellow px-6 py-3 font-display font-extrabold text-sm uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-black;
+    @apply w-full rounded-full bg-black text-yellow px-8 py-4 font-display font-extrabold text-base uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-black/90 active:scale-95;
   }
 
   .btn-ghost {
-    @apply w-full rounded-full border-2 border-black bg-white text-black px-6 py-3 font-display font-extrabold text-sm uppercase tracking-wider transition-all hover:bg-black hover:text-yellow;
+    @apply w-full rounded-full border-2 border-black bg-white text-black px-8 py-4 font-display font-extrabold text-base uppercase tracking-wider transition-all hover:bg-black hover:text-yellow active:scale-95;
   }
 
   .field-input {
-    @apply w-full rounded-full border-2 border-black bg-white px-4 py-2 font-sans text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow focus:border-yellow;
+    @apply w-full rounded-full border-2 border-black bg-white px-6 py-3 font-sans text-base text-black placeholder-gray-500 placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-yellow focus:border-yellow transition-all;
   }
 
   .field-select {
-    @apply w-full rounded-full border-2 border-black bg-white px-4 py-2 font-sans text-sm text-black focus:outline-none focus:ring-2 focus:ring-yellow focus:border-yellow;
+    @apply w-full rounded-full border-2 border-black bg-white px-6 py-3 font-sans text-base text-black focus:outline-none focus:ring-2 focus:ring-yellow focus:border-yellow transition-all appearance-none cursor-pointer;
   }
 
   .field-textarea {
-    @apply w-full rounded-2xl border-2 border-black bg-white px-4 py-2 font-sans text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow focus:border-yellow;
+    @apply w-full rounded-3xl border-2 border-black bg-white px-6 py-3 font-sans text-base text-black placeholder-gray-500 placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-yellow focus:border-yellow transition-all;
   }
 
   .step-container {
-    @apply mx-auto max-w-2xl px-6 py-12 sm:py-16;
+    @apply relative mx-auto max-w-2xl px-8 py-16 sm:py-20;
+  }
+
+  .step-container::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--color-yellow) 0%, transparent 70%);
+    opacity: 0.3;
+    z-index: 0;
+  }
+
+  .step-container::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: -40px;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(-135deg, var(--color-yellow) 0%, transparent 70%);
+    opacity: 0.3;
+    z-index: 0;
+  }
+
+  .step-inner {
+    @apply relative z-10;
   }
 
   .step-header {
-    @apply mb-8;
+    @apply mb-12;
   }
 
   .step-eyebrow {
-    @apply font-display text-sm font-extrabold uppercase tracking-wider text-yellow mb-4;
+    @apply font-display text-xs font-extrabold uppercase tracking-widest text-yellow mb-3 block;
   }
 
   .step-title {
-    @apply font-display text-4xl sm:text-5xl font-extrabold text-black;
+    @apply font-display text-5xl sm:text-6xl font-extrabold text-black leading-tight;
   }
 
   .step-subtitle {
-    @apply mt-3 text-base text-black;
+    @apply mt-4 text-lg text-black leading-relaxed;
   }
 
   .step-content {
-    @apply mt-8 space-y-4;
+    @apply mt-12 space-y-6;
   }
 
   .step-actions {
-    @apply mt-8 flex gap-3;
+    @apply mt-10 flex gap-4 flex-col sm:flex-row;
   }
 
   .error-message {
-    @apply rounded-xl bg-yellow bg-opacity-20 px-4 py-3 text-sm font-semibold text-black border-2 border-yellow;
+    @apply rounded-2xl bg-yellow bg-opacity-15 px-6 py-4 text-sm font-bold text-black border-2 border-yellow mb-8;
   }
 
   .success-container {
-    @apply flex min-h-screen flex-col items-center justify-center text-center px-6;
+    @apply flex min-h-screen flex-col items-center justify-center text-center px-8;
   }
 
   .success-icon {
-    @apply flex h-16 w-16 items-center justify-center rounded-full bg-yellow;
+    @apply flex h-20 w-20 items-center justify-center rounded-full bg-yellow mb-6 text-black;
+  }
+
+  .form-section {
+    @apply bg-yellow bg-opacity-5 p-8 rounded-3xl border-2 border-yellow space-y-6;
+  }
+
+  .section-title {
+    @apply font-display font-extrabold text-lg uppercase tracking-widest text-yellow;
+  }
+
+  .input-group {
+    @apply space-y-2;
+  }
+
+  .input-label {
+    @apply font-display font-bold uppercase text-xs tracking-widest text-black block;
   }
 }
