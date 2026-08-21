@@ -5,7 +5,7 @@ import { FormData, TrialType, Child, LOCATIONS, HOW_HEARD_OPTIONS, AGE_OPTIONS, 
 import { createOrUpdateContact } from "@/lib/hubspot";
 
 export default function TrialForm() {
-  const [step, setStep] = useState<"part1" | "part2" | "part3" | "success">("part1");
+  const [step, setStep] = useState<"part1" | "part2" | "part3" | "part4" | "success">("part1");
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -44,21 +44,37 @@ export default function TrialForm() {
       return;
     }
 
-    if (formData.trialType === "child" && formData.children.length === 0) {
-      setError("Please add at least one child");
-      return;
-    }
-
     setError(null);
     try {
       await createOrUpdateContact(formData, "part2");
-      setStep("part3");
+      if (formData.trialType === "child") {
+        if (formData.children.length === 0) {
+          setFormData({ ...formData, children: [{ firstName: "", lastName: "", age: "", dateOfBirth: "", experience: "", school: "" }] });
+        }
+        setStep("part3");
+      } else {
+        setStep("part4");
+      }
     } catch (err) {
       setError("Failed to save. Please try again.");
     }
   };
 
-  const handlePart3Submit = async () => {
+  const handlePart3Next = async () => {
+    const allChildrenValid = formData.children.every(child =>
+      child.firstName.trim() && child.lastName.trim() && child.age && child.dateOfBirth && child.experience
+    );
+
+    if (!allChildrenValid) {
+      setError("Please fill in all child details");
+      return;
+    }
+
+    setError(null);
+    setStep("part4");
+  };
+
+  const handlePart4Submit = async () => {
     if (!formData.address.trim() || !formData.emergencyContactName.trim() || !formData.emergencyContactPhone.trim() || !formData.emergencyContactRelationship || !formData.emergencyContactEmail.trim()) {
       setError("Please fill in all required fields");
       return;
@@ -138,8 +154,20 @@ export default function TrialForm() {
         <Part3
           formData={formData}
           setFormData={setFormData}
-          onSubmit={handlePart3Submit}
-          onBack={() => setStep("part2")}
+          onNext={handlePart3Next}
+          addChild={addChild}
+          updateChild={updateChild}
+          removeChild={removeChild}
+          error={error}
+          setError={setError}
+        />
+      )}
+
+      {step === "part4" && (
+        <Part4
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handlePart4Submit}
           error={error}
           setError={setError}
           submitting={submitting}
@@ -310,7 +338,139 @@ function Part2({ formData, setFormData, onNext, onBack, addChild, updateChild, r
   );
 }
 
-function Part3({ formData, setFormData, onSubmit, onBack, error, setError, submitting }: any) {
+function Part3({ formData, setFormData, onNext, addChild, updateChild, removeChild, error, setError }: any) {
+  return (
+    <div className="step-container flex flex-col justify-center min-h-auto">
+      <div className="step-inner">
+        <div className="step-content">
+          <p className="font-display font-bold uppercase text-sm tracking-wider text-black mb-6">Child Details</p>
+
+          {formData.children.map((child: Child, idx: number) => (
+            <div key={idx} className="space-y-5 pb-6 mb-6 border-b border-gray-300 last:border-b-0">
+              {formData.children.length > 1 && (
+                <p className="font-display font-bold text-sm text-yellow mb-3">Child {idx + 1}</p>
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="input-group">
+                  <input
+                    type="text"
+                    placeholder="First name"
+                    className="field-input"
+                    value={child.firstName}
+                    onChange={(e) => {
+                      updateChild(idx, "firstName", e.target.value);
+                      setError(null);
+                    }}
+                  />
+                </div>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    placeholder="Last name"
+                    className="field-input"
+                    value={child.lastName}
+                    onChange={(e) => {
+                      updateChild(idx, "lastName", e.target.value);
+                      setError(null);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="input-group">
+                  <select
+                    className="field-select"
+                    value={child.age}
+                    onChange={(e) => {
+                      updateChild(idx, "age", e.target.value);
+                      setError(null);
+                    }}
+                  >
+                    <option value="">Age</option>
+                    {AGE_OPTIONS.map(age => (
+                      <option key={age} value={age}>{age}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="input-group">
+                  <input
+                    type="date"
+                    placeholder="mm/dd/yyyy"
+                    className="field-input"
+                    value={child.dateOfBirth}
+                    onChange={(e) => {
+                      updateChild(idx, "dateOfBirth", e.target.value);
+                      setError(null);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="input-group">
+                <select
+                  className="field-select"
+                  value={child.experience}
+                  onChange={(e) => {
+                    updateChild(idx, "experience", e.target.value);
+                    setError(null);
+                  }}
+                >
+                  <option value="">Previous playing experience</option>
+                  {EXPERIENCE_OPTIONS.map(exp => (
+                    <option key={exp} value={exp}>{exp}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="School (optional)"
+                  className="field-input"
+                  value={child.school}
+                  onChange={(e) => {
+                    updateChild(idx, "school", e.target.value);
+                    setError(null);
+                  }}
+                />
+              </div>
+
+              {formData.children.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeChild(idx)}
+                  className="text-red-600 font-display font-bold text-xs uppercase hover:underline"
+                >
+                  - Remove child
+                </button>
+              )}
+            </div>
+          ))}
+
+          {formData.children.length < 3 && (
+            <button
+              type="button"
+              onClick={addChild}
+              className="w-full py-3 rounded-full border border-gray-400 text-black font-display font-bold uppercase text-sm hover:border-black transition-all mb-6"
+            >
+              + Add another child
+            </button>
+          )}
+        </div>
+
+        {error && <p className="text-red-600 text-sm font-semibold mt-4 mb-3">{error}</p>}
+
+        <div className="step-actions">
+          <button onClick={onNext} className="btn-primary">Next</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Part4({ formData, setFormData, onSubmit, error, setError, submitting }: any) {
   const [selectedChildForTime, setSelectedChildForTime] = useState<number>(0);
   const [currentMonth, setCurrentMonth] = useState(new Date(2026, 7)); // August 2026
 
@@ -329,7 +489,7 @@ function Part3({ formData, setFormData, onSubmit, onBack, error, setError, submi
   return (
     <div className="step-container flex flex-col justify-start min-h-auto">
       <div className="step-inner">
-        <div className="step-content space-y-8">
+        <div className="step-content space-y-6">
           {/* Address Section */}
           <div>
             <p className="font-display font-bold uppercase text-xs tracking-widest text-black mb-6">Step 1 of 2 - Address of the player</p>
@@ -550,7 +710,7 @@ function Part3({ formData, setFormData, onSubmit, onBack, error, setError, submi
 
         {error && <p className="text-red-600 text-sm font-semibold mt-6 mb-3">{error}</p>}
 
-        <div className="step-actions mt-8">
+        <div className="step-actions mt-6">
           <button onClick={onSubmit} disabled={submitting} className="btn-primary">
             {submitting ? "Submitting..." : "Submit registration"}
           </button>
