@@ -410,92 +410,145 @@ function Part2({ formData, setFormData, onNext, onBack, addChild, updateChild, r
 
 function Part3({ formData, setFormData, onSubmit, onBack, error, setError, submitting }: any) {
   const [selectedChildForTime, setSelectedChildForTime] = useState<number>(0);
+  const [currentMonth, setCurrentMonth] = useState(new Date(2026, 7)); // August 2026
+
+  const getDaysInMonth = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  };
+
+  const getFirstDayOfMonth = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  };
+
+  const monthDays = Array.from({ length: getDaysInMonth(currentMonth) }, (_, i) => i + 1);
+  const firstDay = getFirstDayOfMonth(currentMonth);
+  const emptyDays = Array.from({ length: firstDay }, (_, i) => null);
 
   return (
-    <div className="step-container flex flex-col justify-center min-h-screen">
+    <div className="step-container flex flex-col justify-start min-h-auto">
       <div className="step-inner">
-        <div className="step-header">
-          <span className="step-eyebrow">Almost there</span>
-          <h1 className="step-title">Complete your registration</h1>
-        </div>
-
-        <div className="step-content">
-          <div className="input-group">
-            <label className="input-label">Address</label>
-            <input
-              type="text"
-              placeholder="Street address"
-              className="field-input"
-              value={formData.address}
-              onChange={(e) => {
-                setFormData({ ...formData, address: e.target.value });
-                setError(null);
-              }}
-            />
-          </div>
-
-          <div className="form-section">
-            <h3 className="section-title">Emergency Contact</h3>
-            <div className="input-group">
-              <label className="input-label">Name</label>
-              <input
-                type="text"
-                placeholder="Name"
-                className="field-input"
-                value={formData.emergencyContactName}
-                onChange={(e) => {
-                  setFormData({ ...formData, emergencyContactName: e.target.value });
-                  setError(null);
-                }}
-              />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Phone number</label>
-              <input
-                type="tel"
-                placeholder="Phone number"
-                className="field-input"
-                value={formData.emergencyContactPhone}
-                onChange={(e) => {
-                  setFormData({ ...formData, emergencyContactPhone: e.target.value });
-                  setError(null);
-                }}
-              />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Relationship</label>
-              <select
-                className="field-select"
-                value={formData.emergencyContactRelationship}
-                onChange={(e) => {
-                  setFormData({ ...formData, emergencyContactRelationship: e.target.value });
-                  setError(null);
-                }}
-              >
-                <option value="">Relationship</option>
-                <option value="parent">Parent</option>
-                <option value="guardian">Guardian</option>
-                <option value="sibling">Sibling</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div className="input-group">
-              <label className="input-label">Email</label>
-              <input
-                type="email"
-                placeholder="Email"
-                className="field-input"
-                value={formData.emergencyContactEmail}
-                onChange={(e) => {
-                  setFormData({ ...formData, emergencyContactEmail: e.target.value });
-                  setError(null);
-                }}
-              />
-            </div>
-          </div>
-
+        <div className="step-content space-y-8">
+          {/* Address Section */}
           <div>
-            <h3 className="font-display font-extrabold text-lg uppercase tracking-widest text-black mb-6">Pick your trial time</h3>
+            <p className="font-display font-bold uppercase text-xs tracking-widest text-black mb-6">Step 1 of 2 - Address of the player</p>
+            <div className="space-y-5">
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Street address"
+                  className="field-input"
+                  value={formData.address}
+                  onChange={(e) => {
+                    setFormData({ ...formData, address: e.target.value });
+                    setError(null);
+                  }}
+                />
+              </div>
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="City"
+                  className="field-input"
+                  value={formData.city || ""}
+                  onChange={(e) => {
+                    setFormData({ ...formData, city: e.target.value });
+                    setError(null);
+                  }}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="input-group">
+                  <input
+                    type="text"
+                    placeholder="State"
+                    className="field-input"
+                    value={formData.state || ""}
+                    onChange={(e) => {
+                      setFormData({ ...formData, state: e.target.value });
+                      setError(null);
+                    }}
+                  />
+                </div>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    placeholder="ZIP code"
+                    className="field-input"
+                    value={formData.zip || ""}
+                    onChange={(e) => {
+                      setFormData({ ...formData, zip: e.target.value });
+                      setError(null);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Emergency Contact Section */}
+          <div className="border-t pt-8">
+            <p className="font-display font-bold uppercase text-xs tracking-widest text-black mb-6">Emergency Contact</p>
+            <div className="space-y-5">
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="field-input"
+                  value={formData.emergencyContactName}
+                  onChange={(e) => {
+                    setFormData({ ...formData, emergencyContactName: e.target.value });
+                    setError(null);
+                  }}
+                />
+              </div>
+              <div className="input-group">
+                <input
+                  type="tel"
+                  placeholder="Phone number"
+                  className="field-input"
+                  value={formData.emergencyContactPhone}
+                  onChange={(e) => {
+                    setFormData({ ...formData, emergencyContactPhone: e.target.value });
+                    setError(null);
+                  }}
+                />
+              </div>
+              <div className="input-group">
+                <select
+                  className="field-select"
+                  value={formData.emergencyContactRelationship}
+                  onChange={(e) => {
+                    setFormData({ ...formData, emergencyContactRelationship: e.target.value });
+                    setError(null);
+                  }}
+                >
+                  <option value="">Relationship</option>
+                  <option value="parent">Parent</option>
+                  <option value="guardian">Guardian</option>
+                  <option value="sibling">Sibling</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div className="input-group">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="field-input"
+                  value={formData.emergencyContactEmail}
+                  onChange={(e) => {
+                    setFormData({ ...formData, emergencyContactEmail: e.target.value });
+                    setError(null);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Calendar Section */}
+          <div className="border-t pt-8">
+            <h3 className="font-display font-extrabold text-2xl uppercase tracking-wider text-black mb-2">Pick your trial time</h3>
+            <p className="text-sm text-black mb-6">{formData.location} — choose a highlighted day, then request a class.</p>
+
             {formData.trialType === "child" && formData.children.length > 0 && (
               <div className="input-group mb-6">
                 <label className="input-label">Select child</label>
@@ -513,39 +566,89 @@ function Part3({ formData, setFormData, onSubmit, onBack, error, setError, submi
               </div>
             )}
 
-            <div className="space-y-3">
-              {MOCK_TIME_SLOTS.map(slot => (
-                <button
-                  key={slot.id}
-                  type="button"
-                  onClick={() => {
-                    const newChildren = [...formData.children];
-                    if (formData.trialType === "adult") {
-                      setFormData({ ...formData, children: [{ ...newChildren[0], selectedTime: slot.id }] });
-                    } else {
-                      newChildren[selectedChildForTime].selectedTime = slot.id;
-                      setFormData({ ...formData, children: newChildren });
-                    }
-                    setError(null);
-                  }}
-                  className={`w-full rounded-full border-2 p-4 text-left font-sans transition-all text-base ${
-                    (formData.trialType === "adult" ? formData.children[0]?.selectedTime : formData.children[selectedChildForTime]?.selectedTime) === slot.id
-                      ? "bg-black border-black text-yellow"
-                      : "border-black hover:bg-yellow"
-                  }`}
-                >
-                  <div className="font-display font-bold uppercase text-sm">{slot.day}</div>
-                  <div className="text-sm mt-1">{slot.time}</div>
-                  <div className="text-xs mt-1 opacity-80">{slot.coach}</div>
-                </button>
-              ))}
+            <div className="grid grid-cols-3 gap-6">
+              {/* Calendar */}
+              <div className="col-span-2">
+                <div className="border-4 border-black rounded-2xl p-6 bg-white">
+                  <div className="bg-yellow p-4 rounded-xl mb-6 flex items-center justify-between">
+                    <button type="button" className="text-2xl">‹</button>
+                    <h4 className="font-display font-extrabold text-xl">August 2026</h4>
+                    <button type="button" className="text-2xl">›</button>
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-2 mb-4">
+                    {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(day => (
+                      <div key={day} className="text-center font-display font-bold text-xs py-2">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-2">
+                    {[...emptyDays, ...monthDays].map((day, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className={`aspect-square rounded-lg font-display font-bold flex items-center justify-center text-sm transition-all ${
+                          day === 25
+                            ? "bg-yellow border-2 border-black text-black"
+                            : day
+                            ? "border-2 border-gray-300 hover:border-black"
+                            : ""
+                        }`}
+                      >
+                        {day}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Available Times */}
+              <div className="space-y-4">
+                <div className="text-sm">
+                  <p className="font-display font-bold uppercase text-xs mb-2">Tuesday, August 25</p>
+                  <p className="text-xs text-gray-600">3 classes shown</p>
+                </div>
+                {MOCK_TIME_SLOTS.slice(0, 3).map(slot => (
+                  <button
+                    key={slot.id}
+                    type="button"
+                    onClick={() => {
+                      const newChildren = [...formData.children];
+                      if (formData.trialType === "adult") {
+                        setFormData({ ...formData, children: [{ ...newChildren[0], selectedTime: slot.id }] });
+                      } else {
+                        newChildren[selectedChildForTime].selectedTime = slot.id;
+                        setFormData({ ...formData, children: newChildren });
+                      }
+                      setError(null);
+                    }}
+                    className={`w-full rounded-2xl border-2 p-4 text-left transition-all ${
+                      (formData.trialType === "adult" ? formData.children[0]?.selectedTime : formData.children[selectedChildForTime]?.selectedTime) === slot.id
+                        ? "border-black bg-white"
+                        : "border-gray-300 hover:border-black"
+                    }`}
+                  >
+                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-bold mb-2 ${
+                      slot.id === "1" ? "bg-yellow text-black" :
+                      slot.id === "2" ? "bg-yellow text-black" :
+                      "bg-yellow text-black"
+                    }`}>
+                      {slot.id === "1" ? "ADULT" : slot.id === "2" ? "FRESHMAN" : "ROOKIE"}
+                    </span>
+                    <div className="font-display font-bold text-sm">{slot.time}</div>
+                    <div className="text-xs text-gray-600">{slot.coach}</div>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
         {error && <p className="text-red-600 text-sm font-semibold mt-6 mb-3">{error}</p>}
 
-        <div className="step-actions">
+        <div className="step-actions mt-8">
           <button onClick={onSubmit} disabled={submitting} className="btn-primary">
             {submitting ? "Submitting..." : "Submit registration"}
           </button>

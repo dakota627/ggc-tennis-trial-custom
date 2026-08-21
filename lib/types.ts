@@ -20,6 +20,9 @@ export interface FormData {
   howHeard: string;
   children: Child[];
   address: string;
+  city?: string;
+  state?: string;
+  zip?: string;
   emergencyContactName: string;
   emergencyContactPhone: string;
   emergencyContactRelationship: string;
