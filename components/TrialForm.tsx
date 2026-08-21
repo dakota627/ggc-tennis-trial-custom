@@ -244,43 +244,41 @@ function Part1({ formData, setFormData, onNext, error, setError }: any) {
 
 function Part2({ formData, setFormData, onNext, onBack, addChild, updateChild, removeChild, error, setError }: any) {
   return (
-    <div className="step-container flex flex-col justify-center min-h-screen">
+    <div className="step-container flex flex-col justify-center min-h-auto">
       <div className="step-inner">
-        <div className="step-header">
-          <span className="step-eyebrow">Getting to know you</span>
-          <h1 className="step-title">Who is this trial for?</h1>
-        </div>
-
         <div className="step-content">
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <button
-              type="button"
-              onClick={() => {
-                setFormData({ ...formData, trialType: "adult", children: [] });
-                setError(null);
-              }}
-              className={`rounded-full border-2 font-display font-extrabold uppercase tracking-wider py-4 transition-all text-base ${
-                formData.trialType === "adult"
-                  ? "bg-black text-yellow border-black"
-                  : "bg-white text-black border-black hover:bg-yellow"
-              }`}
-            >
-              Adult (18+ yrs)
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setFormData({ ...formData, trialType: "child", children: formData.children.length === 0 ? [{ firstName: "", lastName: "", age: "", dateOfBirth: "", experience: "", school: "" }] : formData.children });
-                setError(null);
-              }}
-              className={`rounded-full border-2 font-display font-extrabold uppercase tracking-wider py-4 transition-all text-base ${
-                formData.trialType === "child"
-                  ? "bg-black text-yellow border-black"
-                  : "bg-white text-black border-black hover:bg-yellow"
-              }`}
-            >
-              Child
-            </button>
+          <div className="mb-6">
+            <p className="font-display font-bold uppercase text-sm tracking-wider text-black mb-4">Who is this trial for?</p>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData({ ...formData, trialType: "adult", children: [] });
+                  setError(null);
+                }}
+                className={`rounded-full border-2 font-display font-bold uppercase tracking-wider py-3 transition-all text-sm ${
+                  formData.trialType === "adult"
+                    ? "bg-black text-yellow border-black"
+                    : "bg-white text-black border-black hover:bg-yellow"
+                }`}
+              >
+                Adult (18+ yrs)
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData({ ...formData, trialType: "child", children: formData.children.length === 0 ? [{ firstName: "", lastName: "", age: "", dateOfBirth: "", experience: "", school: "" }] : formData.children });
+                  setError(null);
+                }}
+                className={`rounded-full border-2 font-display font-bold uppercase tracking-wider py-3 transition-all text-sm ${
+                  formData.trialType === "child"
+                    ? "bg-black text-yellow border-black"
+                    : "bg-white text-black border-black hover:bg-yellow"
+                }`}
+              >
+                Child
+              </button>
+            </div>
           </div>
 
           {formData.trialType === "child" && (
@@ -379,8 +377,8 @@ function Part2({ formData, setFormData, onNext, onBack, addChild, updateChild, r
             </div>
           )}
 
-          <div className="input-group">
-            <label className="input-label">Where did you hear about us?</label>
+          <div>
+            <p className="font-display font-bold uppercase text-sm tracking-wider text-black mb-3">Where did you hear about us?</p>
             <select
               className="field-select"
               value={formData.howHeard}
@@ -397,11 +395,10 @@ function Part2({ formData, setFormData, onNext, onBack, addChild, updateChild, r
           </div>
         </div>
 
-        {error && <p className="text-red-600 text-sm font-semibold mt-6 mb-3">{error}</p>}
+        {error && <p className="text-red-600 text-sm font-semibold mt-4 mb-3">{error}</p>}
 
-        <div className="step-actions">
+        <div className="step-actions mt-6">
           <button onClick={onNext} className="btn-primary">Next</button>
-          <button onClick={onBack} className="btn-ghost">Back</button>
         </div>
       </div>
     </div>
@@ -652,7 +649,6 @@ function Part3({ formData, setFormData, onSubmit, onBack, error, setError, submi
           <button onClick={onSubmit} disabled={submitting} className="btn-primary">
             {submitting ? "Submitting..." : "Submit registration"}
           </button>
-          <button onClick={onBack} disabled={submitting} className="btn-ghost">Back</button>
         </div>
       </div>
     </div>
