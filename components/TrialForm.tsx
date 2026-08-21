@@ -196,11 +196,14 @@ export default function TrialForm() {
 function Part1({ formData, setFormData, onNext, error, setError }: any) {
   return (
     <div className="step-container flex flex-col justify-center min-h-screen">
-      <div className="step-inner">
-        <h1 className="form-hero-title">Book Your Tennis Trial Now!</h1>
+      <div className="form-container-with-title">
+        <div className="form-title-wrapper">
+          <h1 className="form-hero-title">Book Your<br />Tennis<br />Trial Now!</h1>
+        </div>
 
-        <div className="step-content">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="step-inner max-w-xl w-full">
+          <div className="step-content">
+            <div className="grid grid-cols-2 gap-4">
             <div className="input-group">
               <label className="input-label">First Name</label>
               <input
@@ -273,13 +276,14 @@ function Part1({ formData, setFormData, onNext, error, setError }: any) {
                 <option key={loc} value={loc}>{loc}</option>
               ))}
             </select>
+            </div>
           </div>
-        </div>
 
-        {error && <p className="text-red-600 text-sm font-semibold mt-4 mb-3">{error}</p>}
+          {error && <p className="text-red-600 text-sm font-semibold mt-4 mb-3">{error}</p>}
 
-        <div className="step-actions mt-6">
-          <button onClick={onNext} className="btn-primary">Book Trial 🎾</button>
+          <div className="step-actions mt-6">
+            <button onClick={onNext} className="btn-primary">Book Trial 🎾</button>
+          </div>
         </div>
       </div>
     </div>

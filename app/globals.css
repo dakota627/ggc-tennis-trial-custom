@@ -83,7 +83,19 @@
   }
 
   .form-hero-title {
-    @apply font-display text-5xl sm:text-6xl font-extrabold text-black leading-tight mb-12;
+    @apply font-sans font-black text-5xl sm:text-7xl text-black leading-tight tracking-tighter;
+  }
+
+  .form-container-with-title {
+    @apply flex items-start gap-8 sm:gap-12;
+  }
+
+  .form-title-wrapper {
+    @apply flex-1 flex items-center pt-8;
+  }
+
+  .form-fields-wrapper {
+    @apply flex-1;
   }
 
   .step-eyebrow {
