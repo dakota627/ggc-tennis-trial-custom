@@ -155,41 +155,37 @@ function Part1({ formData, setFormData, onNext, error, setError }: any) {
   return (
     <div className="step-container flex flex-col justify-center min-h-screen">
       <div className="step-inner">
-        <div className="step-header">
-          <span className="step-eyebrow">Good Game Collective · Tennis</span>
-          <h1 className="step-title">Sign up for a tennis trial</h1>
-          <p className="step-subtitle">Takes about 5 minutes. We'll ask a few questions about you and the best way to reach you.</p>
-        </div>
-
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className="error-message mb-6">{error}</div>}
 
         <div className="step-content">
-          <div className="input-group">
-            <label className="input-label">First Name</label>
-            <input
-              type="text"
-              placeholder="First Name"
-              className="field-input"
-              value={formData.firstName}
-              onChange={(e) => {
-                setFormData({ ...formData, firstName: e.target.value });
-                setError(null);
-              }}
-            />
-          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="input-group">
+              <label className="input-label">First Name</label>
+              <input
+                type="text"
+                placeholder="First Name"
+                className="field-input"
+                value={formData.firstName}
+                onChange={(e) => {
+                  setFormData({ ...formData, firstName: e.target.value });
+                  setError(null);
+                }}
+              />
+            </div>
 
-          <div className="input-group">
-            <label className="input-label">Last Name</label>
-            <input
-              type="text"
-              placeholder="Last Name"
-              className="field-input"
-              value={formData.lastName}
-              onChange={(e) => {
-                setFormData({ ...formData, lastName: e.target.value });
-                setError(null);
-              }}
-            />
+            <div className="input-group">
+              <label className="input-label">Last Name</label>
+              <input
+                type="text"
+                placeholder="Last Name"
+                className="field-input"
+                value={formData.lastName}
+                onChange={(e) => {
+                  setFormData({ ...formData, lastName: e.target.value });
+                  setError(null);
+                }}
+              />
+            </div>
           </div>
 
           <div className="input-group">
