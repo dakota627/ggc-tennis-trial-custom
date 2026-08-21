@@ -198,7 +198,7 @@ function Part1({ formData, setFormData, onNext, error, setError }: any) {
     <div className="step-container flex flex-col justify-center min-h-screen">
       <div className="form-container-with-title">
         <div className="form-title-wrapper">
-          <h1 className="form-hero-title">Book Your<br />Tennis<br />Trial Now!</h1>
+          <h1 className="form-hero-title">Book Your Tennis Trial Now!</h1>
         </div>
 
         <div className="step-inner max-w-xl w-full">

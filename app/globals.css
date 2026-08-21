@@ -83,15 +83,17 @@
   }
 
   .form-hero-title {
-    @apply font-sans font-black text-5xl sm:text-7xl text-black leading-tight tracking-tighter;
+    @apply font-sans font-black text-6xl sm:text-8xl text-black leading-tight tracking-tighter;
+    max-width: 400px;
   }
 
   .form-container-with-title {
-    @apply flex items-start gap-8 sm:gap-12;
+    @apply flex items-start gap-16 sm:gap-24;
   }
 
   .form-title-wrapper {
-    @apply flex-1 flex items-center pt-8;
+    @apply flex-none flex items-center pt-12;
+    width: 450px;
   }
 
   .form-fields-wrapper {
