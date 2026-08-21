@@ -155,8 +155,6 @@ function Part1({ formData, setFormData, onNext, error, setError }: any) {
   return (
     <div className="step-container flex flex-col justify-center min-h-screen">
       <div className="step-inner">
-        {error && <div className="error-message mb-6">{error}</div>}
-
         <div className="step-content">
           <div className="grid grid-cols-2 gap-4">
             <div className="input-group">
@@ -234,6 +232,8 @@ function Part1({ formData, setFormData, onNext, error, setError }: any) {
           </div>
         </div>
 
+        {error && <p className="text-red-600 text-sm font-semibold mt-6 mb-3">{error}</p>}
+
         <div className="step-actions">
           <button onClick={onNext} className="btn-primary">Book Trial 🎾</button>
         </div>
@@ -250,8 +250,6 @@ function Part2({ formData, setFormData, onNext, onBack, addChild, updateChild, r
           <span className="step-eyebrow">Getting to know you</span>
           <h1 className="step-title">Who is this trial for?</h1>
         </div>
-
-        {error && <div className="error-message">{error}</div>}
 
         <div className="step-content">
           <div className="grid grid-cols-2 gap-4 mb-8">
@@ -399,6 +397,8 @@ function Part2({ formData, setFormData, onNext, onBack, addChild, updateChild, r
           </div>
         </div>
 
+        {error && <p className="text-red-600 text-sm font-semibold mt-6 mb-3">{error}</p>}
+
         <div className="step-actions">
           <button onClick={onNext} className="btn-primary">Next</button>
           <button onClick={onBack} className="btn-ghost">Back</button>
@@ -418,8 +418,6 @@ function Part3({ formData, setFormData, onSubmit, onBack, error, setError, submi
           <span className="step-eyebrow">Almost there</span>
           <h1 className="step-title">Complete your registration</h1>
         </div>
-
-        {error && <div className="error-message">{error}</div>}
 
         <div className="step-content">
           <div className="input-group">
@@ -544,6 +542,8 @@ function Part3({ formData, setFormData, onSubmit, onBack, error, setError, submi
             </div>
           </div>
         </div>
+
+        {error && <p className="text-red-600 text-sm font-semibold mt-6 mb-3">{error}</p>}
 
         <div className="step-actions">
           <button onClick={onSubmit} disabled={submitting} className="btn-primary">
