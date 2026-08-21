@@ -71,7 +71,7 @@
   }
 
   .step-container {
-    @apply relative mx-auto max-w-3xl px-6 py-8 flex items-center justify-center;
+    @apply relative mx-auto px-6 py-8 flex items-center justify-center;
   }
 
   .step-inner {
@@ -88,17 +88,17 @@
     font-size: 3.75rem;
     line-height: 1.2;
     color: #000000;
-    width: 600px;
+    width: 100%;
   }
 
   .form-container-with-title {
-    @apply flex items-stretch gap-20;
-    max-width: 1400px;
+    @apply flex items-stretch gap-16;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
   .form-title-wrapper {
-    width: 450px;
+    flex: 0 0 35%;
     @apply flex items-center flex-shrink-0;
   }
 
